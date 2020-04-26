@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>upload</title>
+    <script type="text/javascript" src="https://s9.cnzz.com/z_stat.php?id=1278849918&web_id=1278849918"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link id="localStylesheet" rel="stylesheet" type="text/css" href="css/upload.css" />
+    <script type="text/javascript">
+        var deviceType =
+            (function () {
+                var userAgent = navigator.userAgent;
+                if (userAgent.includes("Windows")) {
+                    return "pc";
+                } else if (userAgent.includes("iPhone")
+                    || userAgent.includes("Android")) {
+                    return "mobile";
+                } else {
+                    return "pc";
+                }
+            })();
+        (function () {
+            //如果是手机, 跳到手机页面
+            if (deviceType === "mobile") {
+                var localCss = document.querySelector("#localStylesheet");
+                localCss.href = "./css/uploadMobile.css";
+            }
+        })();
+    </script>
+    <script type="text/javascript">
+        var params = (function () {
+            //该方法用于获取链接中的参数集
+            var href = location.href;
+            if (href.indexOf('?') == -1) {
+                return null;
+            }
+            href = href.slice(href.indexOf('?') + 1);
+            href = href.split("&");
+            var ans = {};
+            for (var i = 0; i < href.length; i++) {
+                var tmp = href[i].split("=");
+                ans[tmp[0]] = tmp[1];
+            }
+            return ans;
+        })();
+    </script>
+    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <main id="main" :style="style">
+        <div id="txt">
+            <textarea placeholder="请输入内容..."></textarea>
+        </div>
+        <div>
+            <button @click="upload">提交</button>
+        </div>
+    </main>
+    <script type="text/javascript">
+        new Vue({
+            el: "#main",
+            data: {
+                style: 'height:' +
+                    (document.documentElement.clientHeight || document.body.clientHeight) + 'px'
+            },
+            methods: {
+                upload: function () {
+                    function backToHome() {
+                        if (sessionStorage.getItem("index") == "true")
+                            location.href = "qrcode.html";
+                        else
+                            location.href = "index.html";
+                    };
+                    var txtarea = document.querySelector("textarea");
+                    var value = txtarea.value;
+                    var query = "io?m=upload";
+                    if (params != null) {
+                        query += "&uuid=" + params.uuid;
+                    };
+                    if (value.length > 3000) {
+                        alert("字数太多（>3000）,请重新输入...");
+                        return;
+                    };
+                    fetch(query, { method: "POST", body: value })
+                    .then(function (response) {
+                        if (response.status != 200) {
+                            alert("上传错误, 请刷新后再试...");
+                            return backToHome();
+                        }
+                        response.text().then(function (text) {
+                            var qrcode = "/resive.html?uuid=" + text;
+                            localStorage.setItem("qrcode", qrcode);
+                            localStorage.setItem("uuid", text);
+                            localStorage.setItem("attention", "扫码获取上传内容");
+                            localStorage.setItem("fetch", "false");
+                            return backToHome();
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

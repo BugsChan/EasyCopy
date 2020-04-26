@@ -1,0 +1,12 @@
+
+#txt{
+	height: 30%;
+	padding-top: 10%;
+	padding-bottom: 5%;
+}
+textarea {
+	width: 50%;
+	height: 100%;
+	resize: none;
+	font-size: 12pt;
+}

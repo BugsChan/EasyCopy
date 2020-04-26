@@ -1,0 +1,9 @@
+{
+  "name": "easy-copy",
+  "version": "0.0.0",
+  "description": "EasyCopy",
+  "main": "server.js",
+  "author": {
+    "name": "YandaChen"
+  }
+}

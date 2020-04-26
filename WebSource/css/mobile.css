@@ -1,0 +1,37 @@
+main>*{
+	margin: 180pt 5%;
+	font-size: 28pt;
+}
+#introduction h1{
+	font-size: 50pt;
+}
+#introduction p{
+	font-size:35pt;
+}
+.btn{
+	-webkit-appearance: none;
+	width: 230pt;
+	height: 80pt;
+	border-radius: 18pt;
+	font-size: 30pt;
+}
+
+
+.attention{
+	font-size: 30pt;
+}
+
+.input{
+	width: 80%;
+	font-size: 50pt;
+	height: 80pt;
+	border:none;
+	background-color:white;
+	border-radius: 10pt;
+	padding-left:5pt;
+}
+
+#givemesome img{
+	width: 360pt;
+	height: 420pt;
+}

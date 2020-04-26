@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jump...</title>
+    <script type="text/javascript" src="https://s9.cnzz.com/z_stat.php?id=1278849918&web_id=1278849918"></script>
+    <script type="text/javascript">
+        function UUID() {
+            let s = "";
+            const hexDigit = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (let i = 0; i < 36; i++) {
+                s += hexDigit[parseInt(Math.random() * hexDigit.length)];
+            }
+            return s;
+        };
+        var uuid = UUID();
+        var qrcode = "/upload.html?uuid=" + uuid;
+        localStorage.setItem("qrcode", qrcode);
+        localStorage.setItem("uuid", uuid);
+        localStorage.setItem("attention", "扫码上传内容");
+        localStorage.setItem("fetch", "true");
+        location.href = "/qrcode.html";
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+main{
+	background-color: #c4ceb9;
+}
+*{
+	margin: 0px;
+	padding: 0px;
+}
+main h2{
+	margin-left: 30%;
+	padding-top: 80pt;
+	width: 40%;
+	font-size: 30pt;
+	font-weight: lighter;
+}
+button{
+	font-size: 12pt;
+	background-color: #db1c45;
+	border: none;
+	color: aliceblue;
+	border-radius: 15pt;
+	text-align: center;
+	width: 80pt;
+	height: 30pt;
+}
+
+@keyframes buttonHover{
+	from{background-color: #db1c45;}
+	to{background-color: #db7375;}
+}
+button:hover{
+	animation: buttonHover .25s;
+	animation-fill-mode: forwards;
+}
+main div{
+	text-align: center;
+}

@@ -1,0 +1,3 @@
+H:\coding\EasyCopy\EasyCopy\obj\Debug\EasyCopy.njsprojAssemblyReference.cache
+H:\coding\EasyCopy\EasyCopy\obj\Debug\EasyCopy.njsproj.CoreCompileInputs.cache
+H:\coding\EasyCopy\EasyCopy\bin\Microsoft.NodejsTools.WebRole.dll

@@ -1,0 +1,20 @@
+
+#txt {
+    height: 55%;
+    padding-top: 15%;
+    padding-bottom: 5%;
+}
+
+textarea {
+    width: 80%;
+    height: 100%;
+    resize: none;
+    font-size: 40pt;
+}
+
+button {
+    width: 60%;
+    height: 90pt;
+    font-size: 50pt;
+    border-radius: 40pt;
+}

@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="一秒传, 剪切板, 链接传送, 多设备交互">
+	<meta name="description" content="一秒传 - 剪切板内容一秒传, 打通多设备之间的互联互通">
+	<meta name="content-type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="https://s9.cnzz.com/z_stat.php?id=1278849918&web_id=1278849918"></script>
+	<script type="text/javascript">
+		(function () {
+			//如果是手机, 跳到手机页面
+			var deviceType =
+				(function () {
+					var userAgent = navigator.userAgent;
+					if (userAgent.includes("Windows")) {
+						return "pc";
+					} else if (userAgent.includes("iPhone")
+						|| userAgent.includes("Android")) {
+						return "mobile";
+					} else {
+						return "pc";
+					}
+				})();
+			if (deviceType === "pc") {
+				location.href = "index.html";
+			}
+            sessionStorage.setItem("index", "true");
+		})();
+	</script>
+	<title>一秒传 - 剪切板内容一秒传</title>
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link href="./css/mobile.css" rel="stylesheet" />
+</head>
+<body>
+
+	<main>
+		<div id="introduction">
+			<h1>什么是"一秒传"？</h1>
+			<br>
+			<p>
+				"一秒传"是我写的一个网页小应用， <br>
+				使用"一秒传"， <br>
+				我们可以快速地将剪贴板的内容传送到另外一台设备的剪贴板上。<br>
+			</p>
+			<p>
+				让我们开始吧, 祝大家万事如意...
+			</p>
+			<p style="text-align:right;">
+				by 作者
+			</p>
+			<br>
+			<a href="upload.html"><input type="button" class="btn scan_to_login" value="发送"></a> &nbsp; &nbsp; &nbsp;
+			<a href="download-jump.html"><input type="button" class="btn scan_to_login" value="获取"></a>
+		</div>
+
+		<div id="givemesome">
+			<h3>打赏</h3>
+			<br>
+			<img src="imgs/givemesome.jpg">
+		</div>
+	</main>
+	<footer>
+	</footer>
+</body>
+</html>

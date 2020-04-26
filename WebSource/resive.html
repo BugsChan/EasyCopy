@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>resive</title>
+	<script type="text/javascript" src="https://s9.cnzz.com/z_stat.php?id=1278849918&web_id=1278849918"></script>
+	<style id="pcuse" type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		#qrcode {
+			width: 200px;
+			height: 200px;
+			margin: 20pt auto;
+			display: block;
+		}
+
+		#attention {
+			text-align: center;
+			margin-top: 80pt;
+		}
+
+		#getMsg {
+			text-align: center;
+		}
+
+		input[type=button] {
+			border: none;
+			background-color: #0185f2;
+			width: 60pt;
+			height: 25pt;
+			border-radius: 5px;
+			color: white;
+			font-size: 12pt;
+		}
+	</style>
+	<style type="text/css" id="phone">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		#qrcode {
+			width: 500px;
+			height: 500px;
+			margin: 20pt auto;
+			display: block;
+		}
+
+		#attention {
+			text-align: center;
+			margin-top: 380pt;
+			font-size: 40pt;
+		}
+
+		input[type=button] {
+			-webkit-appearance: none;
+			width: 230pt;
+			height: 80pt;
+			border-radius: 18pt;
+			font-size: 30pt;
+			background-color: #0185f2;
+			color: white;
+		}
+
+		#getMsg {
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		var deviceType =
+			(function () {
+				var userAgent = navigator.userAgent;
+				if (userAgent.includes("Windows")) {
+					return "pc";
+				} else if (userAgent.includes("iPhone")
+					|| userAgent.includes("Android")) {
+					return "mobile";
+				} else {
+					return "pc";
+				}
+			})();
+		(function () {
+			//如果是手机, 跳到手机页面
+			if (deviceType === "mobile") {
+				$("#pcuse").remove();
+			} else {
+				$("#phone").remove();
+			}
+		})();
+	</script>
+	<script type="text/javascript">
+		var params = (function () {
+			//该方法用于获取链接中的参数集
+			var href = location.href;
+			if (href.indexOf('?') == -1) {
+				return null;
+			}
+			href = href.slice(href.indexOf('?') + 1);
+			href = href.split("&");
+			var ans = {};
+			for (var i = 0; i < href.length; i++) {
+				var tmp = href[i].split("=");
+				ans[tmp[0]] = tmp[1];
+			}
+			return ans;
+		})();
+	</script>
+	<script type="text/javascript" src="js/clipboard.min.js"></script>
+	<script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+	<main>
+		<div id="attention">{{ attention }}<span> {{ points }}</span></div>
+		<div id="getMsg"><input id="sure" type="button" value="获取" /></div>
+	</main>
+	<script type="text/javascript">
+		/*
+		 * localStorage: attention, fetch, qrcode, uuid
+		 * sessionStorage: index
+		 **/
+		var main = new Vue({
+			el: "main",
+			data: {
+				attention: "点击获取内容",
+				points: "."
+			}
+		});
+
+		setInterval(function () {
+			if (main.points.length < 3) {
+				main.points += ".";
+			} else {
+				main.points = "";
+			}
+		}, 1000);
+
+		//fetch,150s
+		
+	fetch("http://"
+		+ location.hostname
+		+ "/io?m=downLoad&random="
+		+ parseInt(Math.random() * 8000)
+		+ "&uuid=" + params['uuid'])
+		.then(function (response) {
+			if (response.status == 200) {
+				response.text().then(function (text) {
+					if (text != "Error") {
+						var sure = document.querySelector("#sure");
+                        var clipboard = new ClipboardJS(sure, {
+							text: function () {
+								return text;
+							}
+						});
+						sure.onclick = function () {
+							setTimeout(function () {
+								main.attention = "已经获取到剪贴板,即将返回首页";
+								setTimeout(function () {
+									location.href = "http://" + location.hostname;
+								}, 3000);
+							}, 500);
+						};
+						main.attention = "点击获取内容";
+						main.past = true;
+					} else {
+						alert(location.href);
+						alert("网络故障，请再试一次...");
+						location.href = "index.html";
+                    }
+				});
+			}
+		});
+			
+	</script>
+</body>
+</html>
