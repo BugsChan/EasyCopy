@@ -1,6 +1,5 @@
 
 const URL = require("url");
-const fs = require("fs");
 
 const UUID = () => {
     let s = "";
@@ -22,6 +21,25 @@ const getParams = (query) => {
 };
 
 let Storage = {};
+let timeOut = {};
+let autoClearStarted = false;
+
+const AutoClear = (uuid) => {
+    timeOut[uuid] = 150;
+    if (!autoClearStarted) {
+        autoClearStarted = true;
+        setInterval(() => {
+            for (let each in timeOut) {
+                if (timeOut[each] <= 0) {
+                    delete Storage[each];
+                    delete timeOut[each];
+                } else {
+                    timeOut[each] -= 10;
+                }
+            }
+        }, 10000);
+    }
+};
 
 const Handle = (req, res) => {
     //´¦Àí
@@ -32,8 +50,8 @@ const Handle = (req, res) => {
             uuid = params["uuid"] || UUID();
             req.setEncoding("utf8");
             req.addListener('data', (data) => {
-                console.log("data:", data);
                 Storage[uuid] = data;
+                AutoClear(uuid);
                 res.write(uuid);
                 res.end();
             });
