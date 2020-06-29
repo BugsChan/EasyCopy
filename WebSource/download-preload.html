@@ -5,6 +5,23 @@
     <meta charset="utf-8" />
     <title>jump...</title>
     <script type="text/javascript">
+        var params = (function () {
+            //该方法用于获取链接中的参数集
+            var href = location.href;
+            if (href.indexOf('?') == -1) {
+                return null;
+            }
+            href = href.slice(href.indexOf('?') + 1);
+            href = href.split("&");
+            var ans = {};
+            for (var i = 0; i < href.length; i++) {
+                var tmp = href[i].split("=");
+                ans[tmp[0]] = tmp[1];
+            }
+            return ans;
+        })();
+    </script>
+    <script type="text/javascript">
         function UUID() {
             let s = "";
             const hexDigit = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -23,6 +40,5 @@
     </script>
 </head>
 <body>
-
 </body>
 </html>

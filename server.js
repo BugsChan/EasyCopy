@@ -33,8 +33,14 @@ http.createServer(function (req, res) {
     try {
         if (pathname.indexOf(".") > 0 || pathname == '/') {
             res.writeHead(200, { 'Content-Type': getType(pathname) });
-            res.write(Cache.createInstance().getFile(pathname));
-            res.end();
+            Cache.createInstance().getFile(pathname, (err, data) => {
+                if (err) {
+                    res.write("<h1>Error - Can't find this file</h1>");
+                } else {
+                    res.write(data);
+                }
+                res.end();
+            });
         } else if (pathname == "/io") {
             res.writeHead(200, { "Content-Type": "text/plain" });
             Handle(req, res);
@@ -42,7 +48,11 @@ http.createServer(function (req, res) {
             throw new Exception("404");
         }
     } catch (e) {
+        console.log(e);
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.end();
     }
 }).listen(port);
+
+
+

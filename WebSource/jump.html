@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jump</title>
+    <link href="css/index.css" rel="stylesheet" />
+    <script src="js/vue.js"></script>
+    <style type="text/css">
+        .pc {
+            padding-top: 18%;
+        }
+
+        .mb {
+            padding-top: 400pt;
+        }
+
+        .mb button {
+            font-size: 50pt;
+            width: 55%;
+            height: 120pt;
+        }
+    </style>
+    <script type="text/javascript">
+        var params = (function () {
+            //该方法用于获取链接中的参数集
+            var href = location.href;
+            if (href.indexOf('?') == -1) {
+                return null;
+            }
+            href = href.slice(href.indexOf('?') + 1);
+            href = href.split("&");
+            var ans = {};
+            for (var i = 0; i < href.length; i++) {
+                var tmp = href[i].split("=");
+                ans[tmp[0]] = tmp[1];
+            }
+            return ans;
+        })();
+    </script>
+</head>
+<body>
+    <main :style="style">
+        <div class="pc" v-if="ispc">
+            <a :href="fileHref"><button>{{attention}}文件</button></a>
+            <a :href="txtHref"><button>{{attention}}文字</button></a>
+        </div>
+        <div class="mb" v-if="!ispc">
+            <a :href="fileHref"><button>{{attention}}文件</button></a>
+            <br /><br /><br /><br />
+            <a :href="txtHref"><button>{{attention}}文字</button></a>
+        </div>
+    </main>
+    <footer></footer>
+    <script type="text/javascript">
+        var vue = new Vue({
+            el: "main",
+            data: {
+                style: 'height:' +
+                    (document.documentElement.clientHeight || document.body.clientHeight) + 'px',
+                ispc: (function () {
+                    var userAgent = navigator.userAgent;
+                    if (userAgent.includes("Windows")) {
+                        return true;
+                    } else if (userAgent.includes("iPhone")
+                        || userAgent.includes("Android")) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })(),
+                fileHref: params['up'] == 'true' ? "uploadfile.html" : "download-preload.html?type=file",
+                txtHref: params['up'] == "true" ? "upload.html" : "download-preload.html?type=txt",
+                attention: params['up'] == "true" ? "上传" : "获取"
+            }
+        });
+
+        (function () {
+            var title = document.querySelector("head title");
+            if (params['up'] == "true") {
+                title.innerText = "upload - jump";
+            } else {
+                title.innerText = "download - jump";
+            }
+        })();
+    </script>
+</body>
+</html>

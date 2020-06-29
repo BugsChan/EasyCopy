@@ -139,7 +139,7 @@
 
 		//fetch,150s
 		
-	fetch("http://"
+		fetch("http://"
 		+ location.hostname
 		+ "/io?m=downLoad&random="
 		+ parseInt(Math.random() * 8000)
@@ -165,7 +165,6 @@
 						main.attention = "点击获取内容";
 						main.past = true;
 					} else {
-						alert(location.href);
 						alert("网络故障，请再试一次...");
 						location.href = "index.html";
                     }

@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>upload file ...</title>
+    <link href="css/index.css" rel="stylesheet" />
+    <script src="js/vue.js"></script>
+    <style>
+        .pc {
+            padding-top: 18%;
+            text-align: center;
+        }
+
+        .mb {
+            padding-top: 400pt;
+            text-align: center;
+        }
+
+        .mb button {
+            font-size: 50pt;
+            width: 55%;
+            height: 120pt;
+        }
+
+        .scrollbar{
+            width: 300pt;
+            height: 13pt;
+            border: 1px solid black;
+            margin: 0px auto;
+            background-color:whitesmoke;
+        }
+
+        .scrollbar span {
+            display: inline-block;
+            float: left;
+            height: 13pt;
+            background-color: #db1c45;
+            width: 0px;
+        }
+
+        .pc label{
+            display:block;
+            width:80pt;
+            height: 30pt;
+            line-height: 30pt;
+        }
+    </style>
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+    <main :style="style">
+        <input @change="upload" id="fileinput" type="file" style="display:none;"/>
+        <div v-if="ispc" class="pc">
+            <button v-if="waiting"><label for="fileinput">上传文件</label></button>
+            <div v-else class="scrollbar">
+                <span :style="scrollStyle"></span>
+            </div>
+        </div>
+        <div v-if="!ispc" class="mb">
+            <button v-if="waiting"><label for="fileinput">上传文件</label></button>
+            <div v-else class="scrollbar">
+                <span :style="scrollStyle"></span>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript">
+        var main = new Vue({
+            el: "main",
+            data: {
+                style: 'height:' +
+                    (document.documentElement.clientHeight || document.body.clientHeight) + 'px',
+                ispc: (function () {
+                    var userAgent = navigator.userAgent;
+                    if (userAgent.includes("Windows")) {
+                        return true;
+                    } else if (userAgent.includes("iPhone")
+                        || userAgent.includes("Android")) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })(),
+                waiting: true,
+                scrollStyle: "width:0px;"
+            },
+            methods: {
+                upload: function () {
+                    this.waiting = false;
+                    this.scrollBarAutoCtrl();
+                    var file = document.querySelector("#fileinput").files[0];
+                    var formdata = new FormData();
+                    formdata.append("file", file);
+                    var xhr = XMLHttpRequest();
+                    xhr.open("post", "/io?m=uploadfile");
+                },
+                scrollBarAutoCtrl: function () {
+                    var percent = 0;
+                    var timer = setInterval(function () {
+                        if (percent < 95) {
+                            percent += 0.1;
+                            main.scrollStyle = "width:" + percent + "%;";
+                        } else {
+                            clearInterval(timer);
+                        }
+                    }, 20);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

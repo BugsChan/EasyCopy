@@ -44,12 +44,10 @@
     <Content Include="WebSource\css\uploadMobile.css">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="WebSource\download-jump.html">
+    <Content Include="WebSource\download-preload.html">
       <SubType>Code</SubType>
     </Content>
     <Content Include="WebSource\imgs\givemesome.jpg" />
-    <Content Include="WebSource\imgs\MobileAttention.jpg" />
-    <Content Include="WebSource\imgs\PcAttention.jpg" />
     <Content Include="WebSource\index.html" />
     <Content Include="WebSource\js\clipboard.min.js" />
     <Content Include="WebSource\js\jquery.min.js" />
@@ -60,7 +58,13 @@
     <Content Include="WebSource\mobile.html" />
     <Content Include="WebSource\qrcode.html" />
     <Content Include="WebSource\resive.html" />
+    <Content Include="WebSource\jump.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="WebSource\upload.html" />
+    <Content Include="WebSource\uploadfile.html">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="WebSource\" />
