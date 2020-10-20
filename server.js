@@ -1,31 +1,14 @@
 'use strict';
-const http = require('http');
-const URL = require("url");
+const express = require("express");
+const app = express();
 
-const port = 80;
-const Cache = require("./Cache").Cache;
+app.use("/", express.static("WebSource"));
+
 const Handle = require("./Handle").Handle;
+app.use("/io", Handle); 
 
-
-const getType = (pathname) => {
-    const types = {
-        ".html": "text/html",
-        ".txt": "text/plain",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".png": "image/png",
-        ".css": "text/css",
-        ".js": "application/x-javascript",
-        ".ico": "image/x-icon"
-    };
-    if (!pathname || pathname == "/")
-        return types['.html'];
-    let type = pathname.substr(pathname.lastIndexOf("."));
-    type = type.toLowerCase();
-    return types[type];
-};
-
-
+app.listen(80);
+/**
 
 http.createServer(function (req, res) {
     let url = URL.parse(req.url);
@@ -54,5 +37,4 @@ http.createServer(function (req, res) {
     }
 }).listen(port);
 
-
-
+*/
