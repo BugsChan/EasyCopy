@@ -5,9 +5,14 @@ const app = express();
 app.use("/", express.static("WebSource"));
 
 const Handle = require("./Handle").Handle;
-app.use("/io", Handle); 
+app.use("/io", Handle);
 
 app.listen(80);
+
+//防止异常引起自动关闭
+process.on('uncaughtException', function (err) {
+    console.log(err);
+});
 /**
 
 http.createServer(function (req, res) {
