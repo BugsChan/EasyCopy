@@ -34,6 +34,9 @@
     <Content Include="Handle.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="IP_Get.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
