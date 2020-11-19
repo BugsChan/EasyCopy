@@ -7,6 +7,9 @@ app.use("/", express.static("WebSource"));
 const Handle = require("./Handle").Handle;
 app.use("/io", Handle);
 
+const ipget = require("./IP_Get").IPGET;
+app.use("/ip", ipget);
+
 app.listen(80);
 
 //防止异常引起自动关闭

@@ -6,6 +6,22 @@
 	<meta name="description" content="一秒传 - 剪切板内容一秒传, 打通多设备之间的互联互通">
 	<meta name="content-type" content="text/html; charset=UTF-8">
 	<script type="text/javascript">
+		//获取ip,跳转
+		(function () {
+			if (!/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/.test(location.hostname)
+				|| location.hostname == "127.0.0.1") {
+				fetch("http://" + location.hostname + "/ip").then(function (response) {
+					if (response.status != 200) {
+						location.reload();
+					} else {
+						response.text().then(function (txt) {
+							location.href = "http://" + txt;
+						});
+                    }
+				});
+            }
+		})();
+
 		(function () {
 			//如果是手机, 跳到手机页面
 			var deviceType =
@@ -58,7 +74,6 @@
 		</div>
 	</main>
 	<footer>
-		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278849918'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1278849918%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 	</footer>
 </body>
 </html>
