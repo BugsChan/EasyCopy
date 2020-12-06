@@ -114,7 +114,12 @@
 <body>
 	<main>
 		<div id="attention">{{ attention }}<span> {{ points }}</span></div>
-		<div id="getMsg"><input id="sure" type="button" value="获取" /></div>
+		<div id="getMsg">
+			<input id="sure" type="button" value="获取" />
+			<br />
+            <br />
+            <input type="button" v-show="newPage" value="跳转" v-on:click="jumpToNewPage()" />
+		</div>
 	</main>
 	<script type="text/javascript">
 		/*
@@ -125,8 +130,17 @@
 			el: "main",
 			data: {
 				attention: "点击获取内容",
-				points: "."
-			}
+				points: ".",
+				newPage: null
+			},
+			methods: {
+				jumpToNewPage: function () {
+					var newPage = this.newPage;
+					if (/^http:\/\/|^https:\/\//.test(newPage)) {
+						location.href = newPage;
+                    }
+                }
+            }
 		});
 
 		setInterval(function () {
@@ -149,6 +163,16 @@
 				response.text().then(function (text) {
 					if (text != "Error") {
 						var sure = document.querySelector("#sure");
+						if (/^http:\/\/|^https:\/\//.test(text)) {
+							main.newPage = text;
+							setTimeout(
+								function () {
+                                    main.attention = "点击获取内容或跳转到目标页面";
+								},
+								50
+							);
+							
+                        }
                         var clipboard = new ClipboardJS(sure, {
 							text: function () {
 								return text;

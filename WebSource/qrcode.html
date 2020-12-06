@@ -99,7 +99,11 @@
 		<main>
 			<div id="attention">{{ attention }}<span> {{ points }}</span></div>
 			<div v-show="!past" id="qrcode"></div>
-			<div v-show="past" id="getMsg" class="center"><input id="sure" type="button" value="获取" /></div>
+			<div v-show="past" id="getMsg" class="center">
+				<input id="sure" type="button" value="获取" />
+				<br /><br />
+				<a :href="newPage" v-show="newPage"><input type="button" value="跳转" /></a>
+			</div>
 			<div v-show="!past" class="center"><a href="/index.html"><input type="button" value="返回首页" /></a></div>
 		</main>
 		<script type="text/javascript">
@@ -113,7 +117,8 @@
 					attention: localStorage.getItem("attention"),
 					url: "http://" + location.hostname + localStorage.getItem("qrcode"),
                     points: ".",
-					past: false
+					past: false,
+					newPage: null
 				}
 			});
 
@@ -154,6 +159,15 @@
 							if (response.status == 200) {
 								response.text().then(function (text) {
 									if (text != "Error") {
+                                        if (/^http:\/\/|^https:\/\//.test(text)) {
+                                            main.newPage = text;
+                                            setTimeout(
+                                                function () {
+                                                    main.attention = "点击获取内容或跳转到目标页面";
+                                                },
+                                                50
+                                            );
+                                        }
                                         var sure = document.querySelector("#sure");
                                         new ClipboardJS(sure, {
                                             text: function () {
