@@ -1,12 +1,16 @@
 {
   "name": "easy-copy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "EasyCopy",
   "main": "server.js",
-  "author": {
-    "name": "YandaChen"
+  "author": "YandaChen",
+  "keywords": [],
+  "license": "ISC",
+  "scripts": {
+    "start": "electron ."
   },
-  "dependencies": {
+  "devDependencies": {
+    "electron": "^13.0.1",
     "express": "^4.17.1"
   }
 }
