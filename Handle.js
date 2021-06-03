@@ -1,5 +1,6 @@
 
 const URL = require("url");
+const fs = require("fs");
 
 const UUID = () => {
     let s = "";
@@ -61,16 +62,32 @@ const Handle = (req, res) => {
             uuid = params["uuid"];
             if (uuid in Storage) {
                 res.write(Storage[uuid]);
-                delete Storage[uuid];
                 res.end();
             } else {
                 res.write("Error");
                 res.end();
             }
             break;
+		
+		case "downFile":
+			uuid = params["uuid"];
+			let plugin = Storage[uuid];
+			let name = uuid + "." + plugin;
+			let path = "./userFiles/" + uuid;
+			let size = fs.statSync(path).size;
+			res.writeHead(200, {
+				'Content-Type': 'application/force-download',
+				'Content-Disposition': 'attachment; filename=' + name,
+				'Content-Length': size
+			});
+			let file = fs.createReadStream(path);
+			file.pipe(res);
+			break;
     }
 };
 
 module.exports = {
-    Handle: Handle
+    Handle: Handle,
+	AutoClear: AutoClear,
+	Storage: Storage
 };

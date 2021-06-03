@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -47,7 +47,21 @@
         }
     </style>
     <script type="text/javascript">
-
+		var params = (function () {
+		    //该方法用于获取链接中的参数集
+		    var href = location.href;
+		    if (href.indexOf('?') == -1) {
+		        return null;
+		    }
+		    href = href.slice(href.indexOf('?') + 1);
+		    href = href.split("&");
+		    var ans = {};
+		    for (var i = 0; i < href.length; i++) {
+		        var tmp = href[i].split("=");
+		        ans[tmp[0]] = tmp[1];
+		    }
+		    return ans;
+		})();
     </script>
 </head>
 <body>
@@ -92,23 +106,41 @@
             methods: {
                 upload: function () {
                     this.waiting = false;
-                    this.scrollBarAutoCtrl();
+                    this.scrollBarAutoCtrl(0);
                     var file = document.querySelector("#fileinput").files[0];
-                    var formdata = new FormData();
-                    formdata.append("file", file);
-                    var xhr = XMLHttpRequest();
-                    xhr.open("post", "/io?m=uploadfile");
+                    var filename = file.name;
+					filename = encodeURIComponent(filename);
+					var formdata = new FormData();
+                    formdata.append("avatar", file);
+                    var xhr = new XMLHttpRequest();
+					xhr.upload.addEventListener("progress", (event) => {
+						if(event.lengthComputable)
+							this.scrollBarAutoCtrl(event.loaded * 100 / event.total);
+					});
+					xhr.onreadystatechange = () => {
+						if(xhr.readyState == 4 && xhr.status == 200){
+							if(params != null && "uuid" in params){
+								alert("上传完成");
+								location.href = "/";
+							}else{
+								var text = xhr.responseText;
+								var qrcode = "/resFile.html?uuid=" + text;
+								localStorage.setItem("qrcode", qrcode);
+								localStorage.setItem("uuid", text);
+								localStorage.setItem("attention", "扫码获取上传内容");
+								localStorage.setItem("fetch", "false");
+								location.href = "./qrcode.html";
+							}
+						}
+					};
+					var query = "/fileUpload";
+					if(params != null && "uuid" in params)
+						query += "?uuid=" + params['uuid'];
+                    xhr.open("post", query);
+					xhr.send(formdata);
                 },
-                scrollBarAutoCtrl: function () {
-                    var percent = 0;
-                    var timer = setInterval(function () {
-                        if (percent < 95) {
-                            percent += 0.1;
-                            main.scrollStyle = "width:" + percent + "%;";
-                        } else {
-                            clearInterval(timer);
-                        }
-                    }, 20);
+                scrollBarAutoCtrl: function (percent) {
+                    main.scrollStyle = "width:" + percent + "%;";
                 }
             }
         });

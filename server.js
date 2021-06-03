@@ -10,6 +10,9 @@ expressApp.use("/io", Handle);
 const ipget = require("./IP_Get").IPGET;
 expressApp.use("/ip", ipget);
 
+const {upload, uploadFile} = require("./FileMove");
+expressApp.post("/fileUpload", upload.single("avatar"), uploadFile);
+
 expressApp.listen(80);
 
 //防止异常引起自动关闭

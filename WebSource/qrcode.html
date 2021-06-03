@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -145,7 +145,7 @@
                 }
 			}, 1000);
 
-			if (localStorage.getItem("fetch") == "true") {
+			if (sessionStorage.getItem("fetch") == "txt") {
 				//fetch,150s
 				(function () {
 					var timeout = 150;
@@ -197,7 +197,31 @@
                         }
 					}, 1000);
 				})();
-            }
+            }else if(sessionStorage.getItem("fetch") == "file"){
+				var timeout = 150;
+				var timer = setInterval(function () {
+					fetch("http://"
+						+ location.hostname
+						+ "/io?m=downLoad&random="
+						+ parseInt(Math.random() * 8000)
+						+ "&uuid=" + localStorage.getItem("uuid"))
+					.then(function (response) {
+						if (response.status == 200) {
+							response.text().then(function (text) {
+								if (text != "Error") {
+									location.href = "/resFile.html?uuid=" + localStorage.getItem("uuid");
+								}
+							})
+						}
+					});
+					timeout--;
+					if (timeout <= 0) {
+						clearInterval(timer);
+						alert("请求超时,请重新上传...");
+						location.href = "index.html";
+					}
+				}, 1000);
+			}
 		</script>
 	</body>
 </html>

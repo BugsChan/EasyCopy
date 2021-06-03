@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -31,11 +31,19 @@
             return s;
         };
         var uuid = UUID();
-        var qrcode = "/upload.html?uuid=" + uuid;
-        localStorage.setItem("qrcode", qrcode);
+        var qrcode = "";
+        
         localStorage.setItem("uuid", uuid);
         localStorage.setItem("attention", "扫码上传内容");
-        localStorage.setItem("fetch", "true");
+        if(params["type"] == "file"){
+			sessionStorage.setItem("fetch", "file");
+			qrcode = "/uploadfile.html?uuid=" + uuid;
+		}else{
+			sessionStorage.setItem("fetch", "txt");
+			qrcode = "/upload.html?uuid=" + uuid;
+		}
+			
+		localStorage.setItem("qrcode", qrcode);
         location.href = "/qrcode.html";
     </script>
 </head>
